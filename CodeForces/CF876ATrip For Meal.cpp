@@ -1,0 +1,55 @@
+#include<cstdio>
+int n,a,b,c,t=1,sum;
+int main()
+{
+    scanf("%d%d%d%d",&n,&a,&b,&c);
+    for(int i=2;i<=n;i++)
+    {
+        if(t==1)
+        {
+            if(a<=b)
+            {
+                t=2;
+                sum+=a;
+                continue;
+            }
+            else
+            {
+                t=3;
+                sum+=b;
+                continue;
+            }
+        }
+        if(t==2)
+        {
+            if(a<=c)
+            {
+                t=1;
+                sum+=a;
+                continue;
+            }
+            else
+            {
+                t=3;
+                sum+=c;
+                continue;
+            }
+        }
+        if(t==3)
+        {
+            if(b<=c)
+            {
+                t=1;
+                sum+=b;
+                continue;
+            }
+            else
+            {
+                t=2;
+                sum+=c;
+                continue;
+            }
+        }
+    }
+    printf("%d",sum);
+}

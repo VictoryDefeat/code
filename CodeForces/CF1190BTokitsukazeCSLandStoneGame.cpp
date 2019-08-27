@@ -1,0 +1,106 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define reg register
+#define sq(a) (a)*(a)
+#define cu(a) (a)*(a)*(a)
+struct control
+{
+    int ct,val;
+    control(int Ct,int Val=-1):ct(Ct),val(Val){}
+    inline control operator()(int Val){return control(ct,Val);}
+}_endl(0),_prs(1),_setprecision(2);
+struct FastIO
+{
+    #define IOSIZE 1000000
+    char in[IOSIZE],*p,*pp,out[IOSIZE],*q,*qq,ch[20],*t,b,K,prs;
+    FastIO():p(in),pp(in),q(out),qq(out+IOSIZE),t(ch),b(1),K(6){}
+    ~FastIO(){fwrite(out,1,q-out,stdout);}
+    inline char getch(){return p==pp&&(pp=(p=in)+fread(in,1,IOSIZE,stdin),p==pp)?b=0,EOF:*p++;}
+    inline void putch(char x){q==qq&&(fwrite(out,1,q-out,stdout),q=out),*q++=x;}
+    inline void puts(const char str[]){fwrite(out,1,q-out,stdout),fwrite(str,1,strlen(str),stdout),q=out;}
+    inline void getline(string& s){s="";for(reg char ch;(ch=getch())!='\n'&&b;)s+=ch;}
+    #define indef(T) inline FastIO& operator>>(T& x){\
+        x=0;reg char f=0,ch;\
+        while(!isdigit(ch=getch())&&b)f|=ch=='-';\
+        while(isdigit(ch))x=(x<<1)+(x<<3)+(ch^48),ch=getch();\
+        return x=f?-x:x,*this;\
+    }
+    indef(int)
+    indef(long long)
+    inline FastIO& operator>>(char& ch){return ch=getch(),*this;}
+    inline FastIO& operator>>(string& s)
+    {
+        s="";reg char ch;
+        while(isspace(ch=getch())&&b);
+        while(!isspace(ch)&&b)s+=ch,ch=getch();
+        return *this;
+    }
+    inline FastIO& operator>>(double& x)
+    {
+        x=0;reg char f=0,ch;
+        double d=0.1;
+        while(!isdigit(ch=getch())&&b)f|=(ch=='-');
+        while(isdigit(ch))x=x*10+(ch^48),ch=getch();
+        if(ch=='.')while(isdigit(ch=getch()))x+=d*(ch^48),d*=0.1;
+        return x=f?-x:x,*this;
+    }
+    #define outdef(_T) inline FastIO& operator<<(_T x){\
+        !x&&(putch('0'),0),x<0&&(putch('-'),x=-x);\
+        while(x)*t++=x%10+48,x/=10;\
+        while(t!=ch)*q++=*--t;\
+        return *this;\
+    }
+    outdef(int)
+    outdef(long long)
+    inline FastIO& operator<<(char ch){return putch(ch),*this;}
+    inline FastIO& operator<<(const char str[]){return puts(str),*this;}
+    inline FastIO& operator<<(const string& s){return puts(s.c_str()),*this;}
+    inline FastIO& operator<<(double x)
+    {
+        reg int k=0;
+        this->operator<<(int(x));
+        putch('.');
+        x-=int(x);
+        prs&&(x+=5*pow(10,-K-1));
+        while(k<K)putch(int(x*=10)^48),x-=int(x),++k;
+        return *this;
+    }
+    inline FastIO& operator<<(const control& cl)
+    {
+        switch(cl.ct)
+        {
+            case 0:putch('\n');break;
+            case 1:prs=cl.val;break;
+            case 2:K=cl.val;break;
+        }
+        return *this;
+    }
+    inline operator bool(){return b;}
+}io;
+const int N=100010;
+typedef long long ll;
+ll n,cnt,ans,a[N];
+int main()
+{
+   	io>>n;
+    for(ll i=1;i<=n;++i)io>>a[i],ans+=a[i];
+    sort(a+1,a+1+n);
+    for(ll i=1;i<n;++i)if(a[i]==a[i+1])++cnt;
+    if(cnt>1){io<<"cslnb\n";return 0;}
+    else if(cnt==1)
+	{
+        for(ll i=1;i<=n;++i)
+		{
+            if(a[i]==a[i+1])
+			{
+                if(i!=1&&a[i-1]==a[i]-1){io<<"cslnb\n";return 0;}
+                if(a[i+1]==0){io<<"cslnb\n";return 0;}
+            }
+        }
+    }
+    ans-=n*(n-1)/2;
+    if(ans<=0){io<<"cslnb\n";return 0;}
+    else if(ans&1){io<<"sjfnb\n";return 0;}
+    else io<<"cslnb\n";
+    return 0;
+}
